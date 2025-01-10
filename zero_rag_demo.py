@@ -66,7 +66,8 @@ def main():
         if args.first_thing:
             print('here is first thing')
         elif args.second_thing:
-            print('here is second thing')
+            from zero_rag import main as sc
+            sc.func()
 
     elif args.command == 'level2':
         if args.third_thing:
