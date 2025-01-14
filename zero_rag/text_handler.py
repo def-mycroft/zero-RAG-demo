@@ -28,7 +28,6 @@ with open(CONFIG['api_key_path'], 'r') as f:
     openai.api_key = f.read().strip()
 
 
-# TODO - name of this class needs to be changed it isn't descdriptive
 class TextHandler:
     """
     Handle embedding of text and provide relevant chunks based on queries.
