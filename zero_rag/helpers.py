@@ -1,3 +1,4 @@
+"""Misc functions used in different places in the project"""
 
 from zero_rag.imports import * 
 from PyPDF2 import PdfReader

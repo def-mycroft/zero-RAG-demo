@@ -1,5 +1,5 @@
 """
-Module for handling the embedding of text from and providing relevant chunks
+Class for handling the embedding of text from and providing relevant chunks
 based on queries.
 
 This module includes the TextHandler class, which preprocesses text, generates
@@ -8,9 +8,9 @@ text chunks for user queries. It handles loading, tokenizing, chunking,
 embedding, and archiving of the given text data, facilitating efficient and
 accurate query responses.
 
-Put more simply, this module processes the given text data and provides features
-that allow for retrieving only snippets of text that are potentially relevant to
-the given query. 
+Put more simply, the TextHandler class processes the given text data and
+provides features that allow for retrieving only snippets of text that are
+potentially relevant to the given query. 
 
 """
 from gpt_general.config import load_config
@@ -23,7 +23,8 @@ import faiss
 
 ENGINE = "text-embedding-ada-002"
 CONFIG = load_config()
-TOKEN_MAX = CONFIG['rag_tokenmax']
+#TOKEN_MAX = CONFIG['rag_tokenmax']
+TOKEN_MAX = 1000 # hard coded this for demonstration 
 with open(CONFIG['api_key_path'], 'r') as f:
     openai.api_key = f.read().strip()
 
@@ -117,24 +118,19 @@ class TextHandler:
         print(f"removed '{self.path_embeddings_archive}'")
 
     def general_setup(self):
-        """Prepatory setup steps
-
-        # TODO - prob not here, but somewhere should add a prefix "using the
-        # above context" automatically to every question. makes sense to
-        # reiterate that to the chaptbot 
-
-        """
+        """Prepatory setup steps"""
         self.config = load_config()
-        self.tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+        self.tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
 
+        # here, each element of `pages` is an entire .txt file from 
+        # the given repository of text. 
         self.pages = []
         for fp in glob(join(self.path_text_input, '*txt')):
             with open(fp, 'r') as f:
                 self.pages.append(f.read())
 
         if self.pagemax < np.inf:
-            raise NotImplementedError('not implemented. ')
-
+            raise NotImplementedError()
 
     def process_all_costly(self):
         """Costly steps incl calls to openai api for embeddings"""

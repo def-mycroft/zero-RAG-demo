@@ -1,3 +1,4 @@
+"""Functions for handling openai completions"""
 
 import openai
 
@@ -11,7 +12,7 @@ with open(CONFIG['api_key_path'], 'r') as f:
 
 def init_convo(message='you are a helpful assistant'):
     conversation = [
-        {"role": "system", "content": message}
+        {'role': 'system', 'content': message}
     ]
     return conversation
 
@@ -19,13 +20,13 @@ def init_convo(message='you are a helpful assistant'):
 def new_message(message, conversation, model='', ):
     if not model:
         raise Exception('must have model')
-    conversation.append({"role": "user", "content": message})
+    conversation.append({'role': 'user', 'content': message})
     response = openai.ChatCompletion.create(
         model=model,
         messages=conversation
     )
     reply = response['choices'][0]['message']['content']
-    conversation.append({"role": "assistant", "content": reply})
+    conversation.append({'role': 'assistant', 'content': reply})
     d = {
         'convo':str(conversation),
         'message':message,
